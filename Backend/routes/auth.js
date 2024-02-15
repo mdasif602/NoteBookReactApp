@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = 'Asifisagoodb$oy';
 
-// create a User using: POST "/api/auth/createuser", Doesn't require auth No login required
+//ROUTE 1 :  create a User using: POST "/api/auth/createuser", Doesn't require auth No login required
 
 router.post('/createuser',[
     body('name', 'Enter a valid name').isLength({min: 3}),
@@ -59,9 +59,48 @@ router.post('/createuser',[
 
     } catch (error) {
         console.error(error.mesage); 
-        res.status(500).send("Some Error occured")
+        res.status(500).send("Intenal Server Error occured")
     }
 })
 
+
+
+// ROUTE 2 : Authenticate a User using: POST "/api/auth/login", Doesn't require auth No login required
+router.post('/login',[
+    body('email', 'Enter a valid Email').isEmail(),
+    body('password', 'Password cannot be blank').exists()
+], async (req, res)=>{
+
+    // If there are errors, return Bad request and the errors
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        return res.status(400).json({ errors: result.array() });
+    }
+
+    const {email, password} = req.body;
+
+    try {
+        let user = await User.findOne({email});
+        if (!user) {
+            return res.status(400).json({error: "Please try to login with correct credentials"});
+        }
+
+        const passwordCompare = await bcrypt.compare(password, user.password)
+        if (!passwordCompare) {
+            return res.status(400).json({error: "Please try to login with correct credentials"});
+        }
+        const data = {
+            user: {
+                id: user.id
+            }
+        };
+
+        const authToken = jwt.sign(data, JWT_SECRET);
+        res.json(authToken);
+    } catch (error) {
+        console.error(error.mesage); 
+        res.status(500).send("Intenal Server Error occured")
+    }
+})
 
 module.exports = router;
