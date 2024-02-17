@@ -46,35 +46,76 @@ router.post('/addnote', fetchuser, [
 })
 
 
-// ROUTE 3 : Update an existing notes using: POST "/api/notes/updatenote" . Login required
+// ROUTE 3 : Update an existing notes using: PUT "/api/notes/updatenote" . Login required
 router.put('/updatenote/:id', fetchuser, async (req, res) => {
-    const {title, description, tag} = req.body;
-    
-    // Create a new note
-    const newNote = {};
+    const { title, description, tag } = req.body;
 
-    if (title) {
-        newNote.title = title;
-    }
-    if (description) {
-        newNote.description = description;
-    }
-    if (tag) {
-        newNote.tag = tag;
-    }
+    try {
 
-    // find the note to be updated
-    let note = await Notes.findById(req.params.id);
 
-    if (!note) {
-        return res.status(404).send("Not Found");
+        // Create a new note
+        const newNote = {};
+
+        if (title) {
+            newNote.title = title;
+        }
+        if (description) {
+            newNote.description = description;
+        }
+        if (tag) {
+            newNote.tag = tag;
+        }
+
+        // find the note to be updated
+        let note = await Notes.findById(req.params.id);
+
+        if (!note) {
+            return res.status(404).send("Not Found");
+        }
+
+        if (note.user.toString() !== req.user.id) {
+            return res.status(404).send("Not Allowed");
+        }
+
+        note = await Notes.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true });
+        res.json({ note });
+
+    } catch (error) {
+        console.error(error.mesage);
+        res.status(500).send("Intenal Server Error occured")
     }
-
-    if (note.user.toString() !== req.user.id) {
-        return res.status(404).send("Not Allowed");
-    }
-
-    note = await Notes.findByIdAndUpdate(req.params.id, {$set: newNote}, {new: true});
-    res.json({note});
 });
+
+
+// ROUTE 4 : Delete an existing notes using: DELETE "/api/notes/delete" . Login required
+router.delete('/delete/:id', fetchuser, async (req, res) => {
+    const { title, description, tag } = req.body;
+
+    try {
+
+
+        // find the note to be deleted and delete it
+        let note = await Notes.findById(req.params.id);
+
+        if (!note) {
+            return res.status(404).send("Not Found");
+        }
+
+
+        // Allow deletion only if user own this note
+        if (note.user.toString() !== req.user.id) {
+            return res.status(404).send("Not Allowed");
+        }
+
+        note = await Notes.findByIdAndDelete(req.params.id);
+        res.json({ "Success": "note has been deleted", note: note });
+
+    } catch (error) {
+        console.error(error.mesage);
+        res.status(500).send("Intenal Server Error occured")
+    }
+});
+
+
+
 module.exports = router;
