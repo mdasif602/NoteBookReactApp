@@ -38,12 +38,76 @@ const NoteState = (props)=>{
           "tag": "sleep reminder",
           "date": "2024-02-20T19:05:15.921Z",
           "__v": 0
+        },
+        {
+          "_id": "65d4f7ebc5a651f64a50289c",
+          "user": "65d4f781c5a651f64a502894",
+          "title": "title updated",
+          "description": "sleep is important more and more",
+          "tag": "sleep reminder",
+          "date": "2024-02-20T19:05:15.921Z",
+          "__v": 0
+        },
+        {
+          "_id": "65d4f7ebc5a651f64a50289c",
+          "user": "65d4f781c5a651f64a502894",
+          "title": "title updated",
+          "description": "sleep is important more and more",
+          "tag": "sleep reminder",
+          "date": "2024-02-20T19:05:15.921Z",
+          "__v": 0
+        },
+        {
+          "_id": "65d4f7ebc5a651f64a50289c",
+          "user": "65d4f781c5a651f64a502894",
+          "title": "title updated",
+          "description": "sleep is important more and more",
+          "tag": "sleep reminder",
+          "date": "2024-02-20T19:05:15.921Z",
+          "__v": 0
+        },
+        {
+          "_id": "65d4f7ebc5a651f64a50289c",
+          "user": "65d4f781c5a651f64a502894",
+          "title": "title updated",
+          "description": "sleep is important more and more",
+          "tag": "sleep reminder",
+          "date": "2024-02-20T19:05:15.921Z",
+          "__v": 0
         }
       ];
 
+
+
     const [notes, setNotes] = useState(notesInitial)
+
+    //Add a note
+    const addNote = (title, description, tag)=>{
+      //TODO API CALL
+      console.log("Adding a new note")
+        const note = {
+          "_id": "65d4f7d7c5a651f64a50289821",
+          "user": "65d4f781c5a651f64a5028942",
+          "title": title,
+          "description": description,
+          "tag": tag,
+          "date": "2024-02-20T19:04:55.033Z",
+          "__v": 0
+        };
+        setNotes(notes.concat(note));
+    }
+
+    // Delete a Note
+    const deleteNote = ()=>{
+        
+    }
+
+    //Edit a note
+    const editNote = ()=>{
+      
+    }
     return (
-        <NoteContext.Provider value = {{notes, setNotes}}>
+        <NoteContext.Provider value = {{notes, addNote, deleteNote, editNote}}>
             {props.children}
         </NoteContext.Provider>
     )
