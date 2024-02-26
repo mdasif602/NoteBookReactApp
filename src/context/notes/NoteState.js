@@ -40,7 +40,7 @@ const NoteState = (props)=>{
           "__v": 0
         },
         {
-          "_id": "65d4f7ebc5a651f64a50289c",
+          "_id": "65d4f7ebc5a651f64asx123450289c",
           "user": "65d4f781c5a651f64a502894",
           "title": "title updated",
           "description": "sleep is important more and more",
@@ -49,7 +49,7 @@ const NoteState = (props)=>{
           "__v": 0
         },
         {
-          "_id": "65d4f7ebc5a651f64a50289c",
+          "_id": "65d4f7ebc5a651f634424xa50289c",
           "user": "65d4f781c5a651f64a502894",
           "title": "title updated",
           "description": "sleep is important more and more",
@@ -58,7 +58,7 @@ const NoteState = (props)=>{
           "__v": 0
         },
         {
-          "_id": "65d4f7ebc5a651f64a50289c",
+          "_id": "65d4f7ebc5a651f64a52345c0282549c",
           "user": "65d4f781c5a651f64a502894",
           "title": "title updated",
           "description": "sleep is important more and more",
@@ -67,7 +67,7 @@ const NoteState = (props)=>{
           "__v": 0
         },
         {
-          "_id": "65d4f7ebc5a651f64a50289c",
+          "_id": "65d4f7ebc5a651f64a5dgv02345289c",
           "user": "65d4f781c5a651f64a502894",
           "title": "title updated",
           "description": "sleep is important more and more",
@@ -98,12 +98,15 @@ const NoteState = (props)=>{
     }
 
     // Delete a Note
-    const deleteNote = ()=>{
-        
+    const deleteNote = (id)=>{
+      // TODO API CALL
+        console.log("Deleting the node witd id " + id);
+        const newNotes = notes.filter((note)=>{return note._id !== id}) 
+        setNotes(newNotes);
     }
 
     //Edit a note
-    const editNote = ()=>{
+    const editNote = (id, title, description, tag)=>{
       
     }
     return (
