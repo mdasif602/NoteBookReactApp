@@ -11,8 +11,8 @@ router.get('/fetchallnotes', fetchuser, async (req, res) => {
         res.json(notes);
 
     } catch (error) {
-        console.error(error.mesage);
-        res.status(500).send("Intenal Server Error occured")
+        console.error(error.message);
+        res.status(500).send("Internal Server Error occured")
     }
 })
 
@@ -40,8 +40,8 @@ router.post('/addnote', fetchuser, [
 
         res.json(savedNote);
     } catch (error) {
-        console.error(error.mesage);
-        res.status(500).send("Intenal Server Error occured")
+        console.error(error.message);
+        res.status(500).send("Internal Server Error occured")
     }
 })
 
@@ -81,8 +81,8 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => {
         res.json({ note });
 
     } catch (error) {
-        console.error(error.mesage);
-        res.status(500).send("Intenal Server Error occured")
+        console.error(error.message);
+        res.status(500).send("Internal Server Error occured")
     }
 });
 
@@ -92,8 +92,6 @@ router.delete('/delete/:id', fetchuser, async (req, res) => {
     const { title, description, tag } = req.body;
 
     try {
-
-
         // find the note to be deleted and delete it
         let note = await Notes.findById(req.params.id);
 
@@ -111,8 +109,8 @@ router.delete('/delete/:id', fetchuser, async (req, res) => {
         res.json({ "Success": "note has been deleted", note: note });
 
     } catch (error) {
-        console.error(error.mesage);
-        res.status(500).send("Intenal Server Error occured")
+        console.error(error.message);
+        res.status(500).send("Internal Server Error occured")
     }
 });
 
