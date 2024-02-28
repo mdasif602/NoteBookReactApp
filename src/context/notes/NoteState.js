@@ -43,8 +43,8 @@ const NoteState = (props) => {
 
 
     //Client side logic
-    console.log("Fetching all notes")
-    console.log(res)
+    // console.log("Fetching all notes")
+    // console.log(res)
     setNotes(res);
   }
 
