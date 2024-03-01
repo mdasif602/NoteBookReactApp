@@ -85,6 +85,7 @@ router.post('/login', [
 
     try {
         let user = await User.findOne({ email });
+        
         if (!user) {
             return res.status(400).json({ success , error: "Please try to login with correct credentials" });
         }
@@ -99,10 +100,11 @@ router.post('/login', [
                 id: user.id
             }
         };
+        // console.log("Hello ", user);
 
         const authToken = jwt.sign(data, JWT_SECRET);
         success = true;
-        res.json({success , authToken});
+        res.json({success , authToken, user});
     } catch (error) {
         console.error(error.mesage);
         res.status(500).send("Intenal Server Error occured")

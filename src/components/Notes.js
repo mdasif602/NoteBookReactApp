@@ -2,12 +2,20 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import noteContext from '../context/notes/noteContext';
 import { Noteitem } from './Noteitem';
 import AddNote from './AddNote';
+import { useNavigate } from 'react-router-dom'
 
-export const Notes = () => {
+export const Notes = (props) => {
+  let navigate = useNavigate();
   const context = useContext(noteContext);
   const { notes, fetchNotes, editNote } = context;
   useEffect(() => {
-    fetchNotes();
+    if(localStorage.getItem('token')) {
+      fetchNotes();
+    } else {
+      console.log("navigate to login")
+      navigate("/login");
+    }
+    
     // eslint-disable-next-line
   }, [])
 
@@ -18,6 +26,7 @@ export const Notes = () => {
   const updateNote = (currentNote) => {
     ref.current.click();
     setNote({id: currentNote._id, etitle: currentNote.title, edesc: currentNote.description, etag: currentNote.tag});
+    
   }
 
 
@@ -25,6 +34,7 @@ export const Notes = () => {
     console.log("updating the note ", note)
     // e.preventDefault();
     editNote(note.id, note.etitle, note.edesc, note.etag)
+    props.showAlert("Note Updated", "success")
     refClose.current.click();
   }
 
@@ -34,7 +44,7 @@ export const Notes = () => {
 
   return (
     <>
-      <AddNote />
+      <AddNote showAlert= {props.showAlert}/>
       <button type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop" ref={ref}>
       </button>
       <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -71,7 +81,7 @@ export const Notes = () => {
         <h2>Your Notes</h2>
         {notes.length === 0 && "No Notes to Display"}
         {notes.map((note) => {
-          return <Noteitem key={note._id} updateNote={updateNote} note={note} />;
+          return <Noteitem key={note._id} updateNote={updateNote} note={note} showAlert= {props.showAlert}/>;
         })}
       </div>
     </>

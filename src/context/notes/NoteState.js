@@ -1,5 +1,5 @@
 import NoteContext from "./noteContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const NoteState = (props) => {
 
   const host = "http://localhost:5000"
@@ -26,8 +26,16 @@ const NoteState = (props) => {
 
 
   const [notes, setNotes] = useState(notesInitial)
+  const [user, setUser] = useState({name: "", email: ""})
 
-  //fetch all notes
+  const setUserData = (name, email)=>{
+    const data = {name: name, email: email}
+    setUser(data);
+  }
+
+  useEffect(() => {
+  }, [user]); 
+  
   const fetchNotes = async () => {
     //TODO API CALL
 
@@ -35,7 +43,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkNGY3ODFjNWE2NTFmNjRhNTAyODk0In0sImlhdCI6MTcwODQ1NTgwOX0.Rl-8wjTTUtmWiLggBXyo5fS5F9XdAVE4AOiL8VmJAuU",
+        "auth-token": localStorage.getItem('token'),
       },
       body: JSON.stringify(),
     });
@@ -61,7 +69,7 @@ const NoteState = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkNGY3ODFjNWE2NTFmNjRhNTAyODk0In0sImlhdCI6MTcwODQ1NTgwOX0.Rl-8wjTTUtmWiLggBXyo5fS5F9XdAVE4AOiL8VmJAuU",
+        "auth-token": localStorage.getItem('token'),
       },
       body: JSON.stringify(data),
     });
@@ -70,15 +78,15 @@ const NoteState = (props) => {
 
     //Client side logic
     console.log("Adding a new note")
-    const note = {
-      "_id": "65d4f7d7c5a651f64a50289821",
-      "user": "65d4f781c5a651f64a5028942",
-      "title": title,
-      "description": description,
-      "tag": tag,
-      "date": "2024-02-20T19:04:55.033Z",
-      "__v": 0
-    };
+    // const note = {
+    //   "_id": "65d4f7d7c5a651f64a50289821",
+    //   "user": "65d4f781c5a651f64a5028942",
+    //   "title": title,
+    //   "description": description,
+    //   "tag": tag,
+    //   "date": "2024-02-20T19:04:55.033Z",
+    //   "__v": 0
+    // };
     setNotes(notes.concat(res));
   }
 
@@ -90,7 +98,7 @@ const NoteState = (props) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkNGY3ODFjNWE2NTFmNjRhNTAyODk0In0sImlhdCI6MTcwODQ1NTgwOX0.Rl-8wjTTUtmWiLggBXyo5fS5F9XdAVE4AOiL8VmJAuU",
+        "auth-token": localStorage.getItem('token'),
       },
     });
     const res = await response.json();
@@ -119,7 +127,7 @@ const NoteState = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkNGY3ODFjNWE2NTFmNjRhNTAyODk0In0sImlhdCI6MTcwODQ1NTgwOX0.Rl-8wjTTUtmWiLggBXyo5fS5F9XdAVE4AOiL8VmJAuU",
+        "auth-token": localStorage.getItem('token'),
       },
       body: JSON.stringify(data),
     });
@@ -153,7 +161,7 @@ const NoteState = (props) => {
     setNotes(newNotes);
   }
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, fetchNotes }}>
+    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, fetchNotes, user, setUserData }}>
       {props.children}
     </NoteContext.Provider>
   )
