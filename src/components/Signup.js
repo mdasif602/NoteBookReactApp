@@ -14,7 +14,7 @@ export const Signup = (props) => {
     e.preventDefault();
     const { name, email, password } = credentials;
     setUserData(name, email)
-    const response = await fetch("http://localhost:5000/api/auth/createuser", {
+    const response = await fetch("https://notebookreactapp.onrender.com/api/auth/createuser", {
 
       method: "POST",
       headers: {

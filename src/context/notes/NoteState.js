@@ -2,7 +2,8 @@ import NoteContext from "./noteContext";
 import { useState, useEffect } from "react";
 const NoteState = (props) => {
 
-  const host = "http://localhost:5000"
+  // const host = "http://localhost:5000"
+  const host = "https://notebookreactapp.onrender.com"
   // const s1 = {
   //     "name": "Asif",
   //     "class": "4a"
