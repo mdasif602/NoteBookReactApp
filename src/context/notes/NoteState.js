@@ -35,7 +35,7 @@ const NoteState = (props) => {
   }
 
   useEffect(() => {
-  }, [user]); 
+  }, [user]);
   
   const fetchNotes = async () => {
     //TODO API CALL

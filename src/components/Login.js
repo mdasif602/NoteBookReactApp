@@ -5,7 +5,7 @@ import noteContext from '../context/notes/noteContext';
 export const Login = (props) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" })
   const context = useContext(noteContext);
-  const { setUserData } = context;
+  // const { setUserData } = context;
 
   let navigate = useNavigate();
 
@@ -24,9 +24,11 @@ export const Login = (props) => {
     if (json.success) {
       //Save the authToken and redirect
       localStorage.setItem('token', json.authToken);
+      localStorage.setItem('name' , json.user.name)
+      localStorage.setItem('email', json.user.email)
       navigate("/");
       props.showAlert("Logged in Successfully ", "success")
-      setUserData(json.user.name, json.user.email)
+      // setUserData(json.user.name, json.user.email)
     } else {
       props.showAlert("Invalid Details", "danger")
     }

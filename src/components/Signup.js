@@ -13,7 +13,6 @@ export const Signup = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password } = credentials;
-    setUserData(name, email)
     const response = await fetch("https://notebookreactapp.onrender.com/api/auth/createuser", {
 
       method: "POST",
@@ -30,6 +29,7 @@ export const Signup = (props) => {
       localStorage.setItem('token', json.authToken);
       navigate("/");
       props.showAlert("Successfully created your Account", "success")
+      setUserData(name, email)
     } else {
       props.showAlert("Invalid Credentials", "danger")
     }

@@ -6,8 +6,10 @@ const User = () => {
     const { user } = context;
     return (
         <div>
-            <h2>Name: {user.name}</h2>
-            <h2>Email: {user.email}</h2>
+            {/* <h2>Name: {user.name}</h2>
+            <h2>Email: {user.email}</h2> */}
+            <h2>Name: {localStorage.getItem('name')}</h2>
+            <h2>Email: {localStorage.getItem('email')}</h2>
         </div>
     )
 }
